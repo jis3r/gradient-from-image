@@ -1,15 +1,20 @@
 <script>
-	let file = null;
+	let image = null;
 
-	function handleFiles(event) {
-		file = event.target.files[0] || event.dataTransfer.files[0];
-		console.log(file);
+	$: {
+		if (image && !image.type.match('image.*')) {
+			image = null;
+			alert('Please upload an image file');
+		}
+	}
+
+	function handleInput(event) {
+		image = event.target.files[0] || event.dataTransfer.files[0];
 	}
 
 	function handleDrop(event) {
 		event.preventDefault();
-		file = event.dataTransfer.files[0];
-		console.log(file);
+		image = event.dataTransfer.files[0];
 	}
 
 	function handleDragOver(event) {
@@ -36,15 +41,15 @@
 				on:click={() => fileInput.click()}
 				on:keypress={handleKeyPress}
 			>
-				<input type="file" accept="image/*" id="fileInput" class="hidden" on:change={handleFiles} />
+				<input type="file" accept="image/*" id="fileInput" class="hidden" on:change={handleInput} />
 				<p class="text-white">Drop your image here or click to select</p>
 			</div>
 		</div>
 
-		{#if file}
+		{#if image}
 			<div class="text-white">
 				<strong>Selected File:</strong>
-				{file.name}
+				{image.name}
 			</div>
 		{/if}
 	</div>
