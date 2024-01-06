@@ -1,4 +1,5 @@
 <script>
+	let fileInput;
 	let image = null;
 
 	$: {
@@ -28,7 +29,7 @@
 	}
 </script>
 
-<main class="bg-neutral-950 h-screen w-screen">
+<main class="bg-neutral-950 h-screen w-screen" on:dragover={handleDragOver} on:drop={handleDrop}>
 	<div class="flex flex-col items-center justify-center h-full">
 		<h1 class="text-4xl text-white">Gradient from Image</h1>
 		<div class="p-4">
@@ -36,12 +37,17 @@
 				class="border-dashed border border-neutral-100 rounded-lg p-6 text-center cursor-pointer"
 				role="button"
 				tabindex="0"
-				on:drop={handleDrop}
-				on:dragover={handleDragOver}
 				on:click={() => fileInput.click()}
 				on:keypress={handleKeyPress}
 			>
-				<input type="file" accept="image/*" id="fileInput" class="hidden" on:change={handleInput} />
+				<input
+					type="file"
+					accept="image/*"
+					id="fileInput"
+					class="hidden"
+					on:change={handleInput}
+					bind:this={fileInput}
+				/>
 				<p class="text-white">Drop your image here or click to select</p>
 			</div>
 		</div>
